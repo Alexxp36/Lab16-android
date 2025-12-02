@@ -1,5 +1,6 @@
 package com.tecsup.eventplannerr.ui.screens
 
+import android.util.Patterns
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -30,6 +31,10 @@ fun RegisterScreen(authRepo: AuthRepository, onRegisterSuccess: () -> Unit, onBa
             message = null
             if (email.isBlank() || password.isBlank() || confirm.isBlank()) {
                 message = "Completa todos los campos"
+                return@Button
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                message = "El formato del correo electrónico no es válido"
                 return@Button
             }
             if (password != confirm) {
