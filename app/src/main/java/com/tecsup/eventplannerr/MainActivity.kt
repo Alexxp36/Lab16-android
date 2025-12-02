@@ -1,69 +1,43 @@
 package com.tecsup.eventplannerr
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.google.firebase.Firebase
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.navigation.compose.rememberNavController
+import com.tecsup.eventplannerr.ui.AppNavHost
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
-import com.tecsup.eventplannerr.ui.theme.EventPlannerrTheme
+import com.tecsup.eventplannerr.data.AuthRepository
+import com.tecsup.eventplannerr.data.EventRepository
+import com.tecsup.eventplannerr.viewmodel.AuthViewModel
+import com.tecsup.eventplannerr.viewmodel.EventViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 
 class MainActivity : ComponentActivity() {
+
+    // Factory helpers omitted — we'll create ViewModel instances manually in composables for simplicity.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Probar conexión Firebase
-        try {
-            val auth = Firebase.auth
-            val firestore = Firebase.firestore
-
-            Log.d("Firebase", "✅ Firebase Auth inicializado correctamente")
-            Log.d("Firebase", "✅ Firestore inicializado correctamente")
-            Log.d("Firebase", "Usuario actual: ${auth.currentUser?.email ?: "No hay usuario"}")
-
-        } catch (e: Exception) {
-            Log.e("Firebase", "❌ Error al inicializar Firebase: ${e.message}")
-        }
+        val authRepo = AuthRepository(FirebaseAuth.getInstance())
+        val eventRepo = EventRepository(FirebaseFirestore.getInstance())
 
         setContent {
-            EventPlannerrTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "EventPlanner - Firebase Ready! 🔥")
-                    }
+            MaterialTheme {
+                Surface {
+                    val navController = rememberNavController()
+                    AppNavHost(
+                        navController = navController,
+                        authRepo = authRepo,
+                        eventRepo = eventRepo
+                    )
                 }
             }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    EventPlannerrTheme {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "EventPlanner")
         }
     }
 }
