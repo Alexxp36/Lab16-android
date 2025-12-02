@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14247760910",
+    "project_id": "lab16-c912b",
+    "storage_bucket": "lab16-c912b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14247760910:android:acc0db7db3f6c7d789185f",
+        "android_client_info": {
+          "package_name": "com.tecsup.eventplannerr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGGUIPni6YOJOvZ5WEF-625k-yDn4zcyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
